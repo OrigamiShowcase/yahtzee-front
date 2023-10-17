@@ -1,0 +1,98 @@
+$popins-font: 'Poppins' , sans-serif;
+$monument-font: 'Monument' , sans-serif;
+
+:root{
+  --green-1: #0b4b32fd;
+  --green-2: #107854d0;
+  --green-3: #49836fc7;
+  --green-4: #719f91b7;
+  --green-5: #5cc5bc85;
+  --dark   : #0d1321;
+  --light-1: #d3dcde;
+  --light-2: #ede9e9;
+}
+
+*{
+  // font-family: $monument-font;
+}
+
+body{
+  @apply overflow-x-hidden
+}
+
+.q-drawer--left.q-drawer--bordered{
+  border-right: 0px solid rgba(0, 0, 0, 0.12);
+}
+
+//animation
+@layer base{
+  .animated__fast{
+    --animate-duration: 0.4s;
+  }
+}
+
+@layer base{
+  a{
+    @apply transition-300 hover:text-[var(--green-1)];
+  }
+  .flex-center{
+    @apply flex items-center justify-center;
+  }
+
+  .flex-between{
+    @apply flex items-center justify-between;
+  }
+
+  .transition-300{
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .disable-selection{
+    user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
+  //fonts
+  .font-monument{
+    font-family:  $monument-font;
+  }
+  .font-popins{
+    font-family:  $popins-font;
+  }
+
+  //btns
+  .btn-sm{
+    @apply text-xs py-3 px-4 #{!important};
+  }
+  .btn-md{
+    @apply text-base px-6 py-3 #{!important};
+  }
+  .btn{
+    @apply btn-sm  transition-300  flex items-center gap-2 rounded-full  ;
+    @apply text-gray-50 #{!important} ;
+  }
+
+
+  .title{
+    @apply text-gray-50 font-monument text-xl lg:text-3xl tracking-wider		;
+  }
+
+  .box-title{
+    @apply font-monument text-center lg:text-start;
+  }
+
+  .main-container{
+    @apply max-w-[1325px] mx-auto p-5;
+  }
+}
+
+
+
+
+
+
+
