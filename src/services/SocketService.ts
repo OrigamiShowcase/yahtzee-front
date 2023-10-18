@@ -1,9 +1,8 @@
-import { GameState } from "src/enums/GameState"
-import { ResponseType } from "src/enums/ResponseType"
+import GameState from "src/enums/GameState"
 import {appStore} from "src/stores/app"
 
 export default class WebSocketClient{
-  static baseUrl:string= 'wss://yahtzeesocket.origamicore.com'
+  static baseUrl:string= 'wss://yahtzeesocket.origamicore.com/'
   static id:number = 0
   static temp:any = {}
   static client:WebSocket = new WebSocket(this.baseUrl , 'echo-protocol')

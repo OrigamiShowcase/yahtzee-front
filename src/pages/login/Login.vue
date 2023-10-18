@@ -30,9 +30,9 @@ async function login() {
 </script>
 
 <template>
-  <div class="flex-center flex-col gap-10 h-screen">
+  <div class="flex-center flex-col gap-10 h-screen bg-[#0d3d2f]">
     <span class="text-gray-50 font-monument text-4xl">YAHTZEE</span>
-    <q-btn rounded color="red" icon="fab fa-google" :loading="state.btnLoading" no-caps @click="login">
+    <q-btn rounded color="red" icon="fab fa-google" :loading="state.btnLoading" unelevated no-caps @click="login">
       <span class="ml-2">Connect With Google</span>
     </q-btn>
   </div>

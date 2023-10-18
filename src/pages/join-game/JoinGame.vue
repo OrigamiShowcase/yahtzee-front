@@ -20,16 +20,29 @@ function closeDialog() {
   state.showJoinDialog = false;
 }
 
-
 async function logout() {
   window.localStorage.removeItem("token");
   router.push({ name: "login" });
 }
 
+async function createGame() {
+  try {
+    const response = await ApiService.createGame();
+    if (response) {
+      router.push({ name: "game" });
+    }
+  } catch (error) {
+    $q.notify({
+      color: "negative",
+      message: "There is a problem in creating a game!",
+    });
+  }
+}
+
 </script>
 
 <template>
-  <div class="flex-center flex-col gap-10 h-screen relative">
+  <div class="flex-center flex-col gap-10 h-screen relative bg-[#0d3d2f]">
     <span class="text-gray-50 font-monument text-4xl">YAHTZEE</span>
     <div class="flex flex-col items-center gap-5">
       <q-btn
@@ -37,13 +50,16 @@ async function logout() {
         text-color="white"
         class="bg-sky-600 hover:bg-sky-700"
         icon="fas fa-plus"
+        unelevated
+        @click="createGame"
       >
         Create New Game
       </q-btn>
       <q-btn
         rounded
         text-color="white"
-        class="bg-[var(--main-purple)] hover:bg-violet-900"
+        class="bg-[var(--green-2)] "
+        unelevated
         @click="state.showJoinDialog = true"
       >
         Join By ID
@@ -53,7 +69,7 @@ async function logout() {
     <div class="hidden  lg:!flex flex-col items-center gap-1 absolute bottom-4 ">
       <a
         href="https://github.com/origamicore/core"
-        class="fixed px-5 py-2 rounded-full bg-[var(--main-purple)] text-gray-50 hover:text-gray-50"
+        class="fixed px-5 py-2 rounded-full bg-[var(--green-1)] text-gray-50 hover:text-gray-50"
       >
         <i class="fab fa-github mr-1"></i>
         Don't forget to star
@@ -62,7 +78,7 @@ async function logout() {
 
       <div class="flex items-center gap-2 mt-12">
         <a
-          href="https://github.com/moh3ndehghani/evac-frontend"
+          href="https://github.com/OrigamiShowcase/yahtzee-front"
           target="_blank"
           class="btn btn-sm bg-gray-900 hover:bg-gray-950"
         >
@@ -70,7 +86,7 @@ async function logout() {
           Front-End
         </a>
         <a
-          href="https://github.com/OrigamiShowcase/evac-server"
+          href="https://github.com/OrigamiShowcase/yahtzee"
           target="_blank"
           class="btn btn-sm bg-gray-900 hover:bg-gray-950"
         >

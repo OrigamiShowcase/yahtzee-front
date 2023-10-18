@@ -43,13 +43,13 @@ async function confirm() {
 
 <template>
   <q-dialog v-model="state.showDialog" @hide="closeDialog">
-    <div class="w-[300px] p-5 bg-sky-900">
+    <div class="w-[300px] p-5 bg-[var(--green-1)]">
       <p class="text-gray-50 text-center text-xl">Join By ID</p>
       <q-input
         dark
         outlined
         color="blue-5"
-        label-color="blue-2"
+        label-color="green-2"
         v-model="id"
         label="ID"
         class="mt-5 text-gray-50"
@@ -65,8 +65,7 @@ async function confirm() {
           :loading="state.btnLoading"
           no-caps
           @click="confirm"
-          >Join</q-btn
-        >
+        > Join </q-btn>
       </div>
     </div>
   </q-dialog>

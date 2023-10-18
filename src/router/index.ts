@@ -34,48 +34,48 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   Router.beforeEach(async (to, from , next) => {
-    // const store = appStore()
+    const store = appStore()
 
-    // if(to.query.oauttoken){
-    //   try {
-    //     const response = await ApiService.getToken(to.query.oauttoken as string)
-    //     if(response){
-    //       window.localStorage.setItem("token" , response)
-    //     }
-    //   } catch (error) {
-    //     console.log("error ====>" , error);
-    //   }
-    // }
+    if(to.query.oauttoken){
+      try {
+        const response = await ApiService.getToken(to.query.oauttoken as string)
+        if(response){
+          window.localStorage.setItem("token" , response)
+        }
+      } catch (error) {
+        console.log("error ====>" , error);
+      }
+    }
 
 
-    // const token = window.localStorage.getItem("token")
-    // if(token && to.name === "login"){
-    //   return next({name:"join-game"})
-    // }
-    // if(!token && to.name !== "login"){
-    //   return next({name:"login"})
-    // }
+    const token = window.localStorage.getItem("token")
+    if(token && to.name === "login"){
+      return next({name:"join-game"})
+    }
+    if(!token && to.name !== "login"){
+      return next({name:"login"})
+    }
 
-    // if(to.name !== "login"){
-    //   const profile = await ApiService.isLogin()
-    //   store.profile = profile
-    // }
+    if(to.name !== "login"){
+      const profile = await ApiService.isLogin()
+      store.profile = profile
+    }
 
-    // if(token && to.name !== "login"){
-    //   const game = await ApiService.getGame()
-    //   // if there is a game on this gamil, the user redirects to game
-    //   if(game){
-    //     store.game = game
-    //     if(to.name !== "game"){
-    //       return next({name:"game"})
-    //     }
-    //   }
-    //   else{
-    //     if(to.name !== "join-game"){
-    //       return next({name:"join-game"})
-    //     }
-    //   }
-    // }
+    if(token && to.name !== "login"){
+      const game = await ApiService.getGame()
+      // if there is a game on this gamil, the user redirects to game
+      if(game){
+        store.game = game
+        if(to.name !== "game"){
+          return next({name:"game"})
+        }
+      }
+      else{
+        if(to.name !== "join-game"){
+          return next({name:"join-game"})
+        }
+      }
+    }
 
     next()
   })

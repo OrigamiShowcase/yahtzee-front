@@ -1,23 +1,32 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import GameModel from "src/models/GameModel";
 
-export const appStore = defineStore('game', {
-  state: () => ({
-    game: null,
-    token:"",
-    profile:{},
-    changingTurn:false,
-    disconnected:false
+interface State {
+  game: GameModel;
+  token: string;
+  profile: any;
+  changingTurn: boolean;
+  disconnected: boolean;
+}
+
+export const appStore = defineStore("game", {
+  state: (): State => ({
+    game: new GameModel(),
+    token: "",
+    profile: {},
+    changingTurn: false,
+    disconnected: false,
   }),
 
-  getters:{
-    players(state){
-      return state.game?.players ?? [];
+  getters: {
+    players(state) {
+      return state.game.players;
     },
-    activePlayer(state){
-      return state.game?.players[state.game?.turn];
+    activePlayer(state) {
+      const players = state.game.players;
+      return players[state.game?.turn];
     },
   },
 
-  actions:{
-  }
+  actions: {},
 });
