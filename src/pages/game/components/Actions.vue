@@ -1,25 +1,55 @@
 <script setup lang="ts">
+import GameState from "src/enums/GameState";
+import ApiService from "src/services/ApiService";
+import { appStore } from "src/stores/app";
+import { inject } from "vue";
 
+////////
+
+const store = appStore();
+const $eventBus: any = inject("$eventBus");
+
+////////
+
+async function roll() {
+  $eventBus.emit("roll", null);
+}
+async function assign() {
+  try {
+    await ApiService.assign(store.selectedItem as number);
+  } catch (error) {
+    console.log("error in assining ===>", error);
+  }
+}
 </script>
 
 <template>
   <div class="actions">
-    <q-btn
-      color="green-6"
-      size="lg"
-      glossy
-      label="Roll"
-      class="full-width"
-      push
-    />
-    <q-btn
-      color="blue-6"
-      size="lg"
-      glossy
-      label="Assign"
-      class="full-width"
-      push
-    />
+    <template v-if="store.game.state != GameState.Finished">
+      <q-btn
+        :disable="store.game.count == 3"
+        color="green-6"
+        size="lg"
+        glossy
+        :label="`Roll (${3 - store.game.count})`"
+        class="full-width"
+        push
+        @click="roll"
+      />
+      <q-btn
+        color="blue-6"
+        size="lg"
+        glossy
+        label="Assign"
+        class="full-width"
+        push
+        :disable="!store.game.dices.length"
+        @click="assign"
+      />
+    </template>
+    <span v-else class="text-center text-white text-2xl mx-auto mb-3"
+      >Finished</span
+    >
   </div>
 </template>
 

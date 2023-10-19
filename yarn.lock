@@ -2410,6 +2410,11 @@ etag@~1.8.1:
   resolved "https://registry.yarnpkg.com/etag/-/etag-1.8.1.tgz#41ae2eeb65efa62268aebfea83ac7d79299b0887"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
+eventbus-pubsub@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/eventbus-pubsub/-/eventbus-pubsub-1.0.4.tgz#cb815e38b7eb4c2a2201718b9ae68a27894add8d"
+  integrity sha512-ZvSGRgaoYPYeCDa7opJIEJo7bz83NS9/M0cf6kyhf2RZSH1aRLPvH+dNRQ810lrhQkSFKGOB93qpzgQvxi+tYA==
+
 express@^4.17.3:
   version "4.18.2"
   resolved "https://registry.yarnpkg.com/express/-/express-4.18.2.tgz#3fabe08296e930c796c19e3c516979386ba9fd59"
@@ -4494,6 +4499,13 @@ vue-router@^4.0.0:
   integrity sha512-9PISkmaCO02OzPVOMq2w82ilty6+xJmQrarYZDkjZBfl4RvYAlt4PKnEX21oW4KTtWfa9OuO/b3qk1Od3AEdCQ==
   dependencies:
     "@vue/devtools-api" "^6.5.0"
+
+vue3-pubsub@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue3-pubsub/-/vue3-pubsub-1.0.3.tgz#a35410583e4a589768725e5b397f86a867649a83"
+  integrity sha512-Pt4kVshbczr850a9yoeOQdg5v/FlPjQnTb1EI3ldOH1ck/tTMzGZXcJsROgGbAokR3dErirvtnCDzE3Sp3+TkQ==
+  dependencies:
+    eventbus-pubsub "^1.0.4"
 
 vue@^3.0.0:
   version "3.3.4"

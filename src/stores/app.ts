@@ -7,6 +7,7 @@ interface State {
   profile: any;
   changingTurn: boolean;
   disconnected: boolean;
+  selectedItem: number | null;
 }
 
 export const appStore = defineStore("game", {
@@ -16,6 +17,7 @@ export const appStore = defineStore("game", {
     profile: {},
     changingTurn: false,
     disconnected: false,
+    selectedItem: null,
   }),
 
   getters: {
