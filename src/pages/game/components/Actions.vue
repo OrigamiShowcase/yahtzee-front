@@ -12,12 +12,13 @@ const $eventBus: any = inject("$eventBus");
 ////////
 
 async function roll() {
-  store.rollLoading = true
+  store.rollLoading = true;
   $eventBus.emit("roll", null);
 }
 async function assign() {
   try {
     await ApiService.assign(store.selectedItem as number);
+    store.selectedItem = null;
   } catch (error) {
     console.log("error in assining ===>", error);
   }
@@ -26,7 +27,24 @@ async function assign() {
 
 <template>
   <div class="actions">
-    <template v-if="store.game.state != GameState.Finished">
+    <div
+      v-if="store.game.state == GameState.Finished"
+      class="flex items-center justify-evenly w-full"
+    >
+      <div
+        class="w-1/3 flex flex-col items-center text-xl font-bold text-white p-3 rounded-xl bg-[var(--green-1)]"
+      >
+        <span>You</span>
+        <span> {{ store.yourPoint }} </span>
+      </div>
+      <div
+        class="w-1/3 flex flex-col items-center text-xl font-bold text-white p-3 rounded-xl bg-[var(--green-1)]"
+      >
+        <span>Opponent</span>
+        <span> {{ store.oppPoint }} </span>
+      </div>
+    </div>
+    <template v-else-if="store.isUserTurn">
       <q-btn
         :disable="store.game.count == 3"
         color="green-6"
@@ -49,9 +67,9 @@ async function assign() {
         @click="assign"
       />
     </template>
-    <span v-else class="text-center text-white text-2xl mx-auto mb-3"
-      >Finished</span
-    >
+    <span v-else class="text-center text-white text-2xl mx-auto mb-3">
+      Opponent Turn: ({{ 3 - store.game.count }})
+    </span>
   </div>
 </template>
 

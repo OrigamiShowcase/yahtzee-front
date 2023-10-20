@@ -95,7 +95,7 @@ const generatedItems = computed(() => {
 
   for (let player of store.game.players) {
     for (let score of player.scores) {
-      if (store.activePlayer.userid == player.userid) {
+      if (store.profile.userid == player.userid) {
         //this is you, so we need to set the point on "yourPoint"
         items[score.type - 1].yourPoint = score.value;
       } else {
@@ -206,14 +206,18 @@ function isFullHouse() {
 
 function isSmallStraight() {
   // برای اسمال استریت، باید 4 تاس پشت سر هم داشته باشید
-  return (
-    (dices[0] === dices[1] - 1 &&
-      dices[1] === dices[2] - 1 &&
-      dices[2] === dices[3] - 1) ||
-    (dices[1] === dices[2] - 1 &&
-      dices[2] === dices[3] - 1 &&
-      dices[3] === dices[4] - 1)
-  );
+  let uniqueDices: any = new Set(dices);
+  uniqueDices = [...uniqueDices];
+  if (uniqueDices.length > 3) {
+    return (
+      (uniqueDices[0] === uniqueDices[1] - 1 &&
+        uniqueDices[1] === uniqueDices[2] - 1 &&
+        uniqueDices[2] === uniqueDices[3] - 1) ||
+      (uniqueDices[1] === uniqueDices[2] - 1 &&
+        uniqueDices[2] === uniqueDices[3] - 1 &&
+        uniqueDices[3] === uniqueDices[4] - 1)
+    );
+  } else return false;
 }
 
 // تشخیص لارج استریت (ترتیب 5 عدد پشت سر هم)
@@ -286,12 +290,13 @@ function calculateSum() {
             {{ item.yourPoint }}
           </span>
           <span
-            v-else-if="store.game.dices.length"
+            v-else-if="store.game.dices.length && store.isUserTurn"
             class="text-lg font-bold text-emerald-400"
           >
             {{ calculateYatzyScore(item.id) }}
           </span>
         </div>
+
         <!-- apponent -->
         <div
           class="w-[45px] h-[45px] flex-center rounded-lg bg-[var(--green-5)]"
@@ -300,13 +305,23 @@ function calculateSum() {
             'opacity-10': store.game.players.length != 2,
           }"
         >
-          <span class="text-lg font-bold text-[var(--light-1)]">
+          <span
+            v-if="item.oppPoint != null"
+            class="text-lg font-bold text-[var(--light-1)]"
+          >
             {{ item.oppPoint }}
           </span>
+          <!-- <span
+            v-else-if="store.game.dices.length && !store.isUserTurn"
+            class="text-lg font-bold text-emerald-400"
+          >
+            {{ calculateYatzyScore(item.id) }}
+          </span> -->
         </div>
       </div>
       <div class="board-item"></div>
     </div>
+
     <div class="board-right">
       <div
         v-for="(item, index) in generatedItems.slice(6)"
@@ -333,12 +348,13 @@ function calculateSum() {
             {{ item.yourPoint }}
           </span>
           <span
-            v-else-if="store.game.dices.length"
+            v-else-if="store.game.dices.length && store.isUserTurn"
             class="text-lg font-bold text-emerald-400"
           >
             {{ calculateYatzyScore(item.id) }}
           </span>
         </div>
+
         <!-- apponent -->
         <div
           class="w-[45px] h-[45px] flex-center rounded-lg bg-[var(--green-5)]"
@@ -347,9 +363,18 @@ function calculateSum() {
             'opacity-10': store.game.players.length != 2,
           }"
         >
-          <span class="text-lg font-bold text-[var(--light-1)]">
+          <span
+            v-if="item.oppPoint != null"
+            class="text-lg font-bold text-[var(--light-1)]"
+          >
             {{ item.oppPoint }}
           </span>
+          <!-- <span
+            v-else-if="store.game.dices.length && !store.isUserTurn"
+            class="text-lg font-bold text-emerald-400"
+          >
+            {{ calculateYatzyScore(item.id) }}
+          </span> -->
         </div>
       </div>
     </div>

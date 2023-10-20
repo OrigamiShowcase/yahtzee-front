@@ -36,7 +36,12 @@ function closeDialog() {
 
 async function confirm() {
   handleSubmit(async () => {
-
+    try {
+      await ApiService.joinGame(id.value as string);
+      router.push({ name: "game" });
+    } catch (error) {
+      console.log("error in joining ===>", error);
+    }
   })();
 }
 </script>
@@ -65,7 +70,9 @@ async function confirm() {
           :loading="state.btnLoading"
           no-caps
           @click="confirm"
-        > Join </q-btn>
+        >
+          Join
+        </q-btn>
       </div>
     </div>
   </q-dialog>

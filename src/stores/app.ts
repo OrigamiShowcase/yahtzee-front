@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import GameModel from "src/models/GameModel";
+import GameModel, { PlayerModel } from "src/models/GameModel";
 
 interface State {
   game: GameModel;
@@ -8,7 +8,7 @@ interface State {
   changingTurn: boolean;
   disconnected: boolean;
   selectedItem: number | null;
-  rollLoading:boolean
+  rollLoading: boolean;
 }
 
 export const appStore = defineStore("game", {
@@ -19,16 +19,43 @@ export const appStore = defineStore("game", {
     changingTurn: false,
     disconnected: false,
     selectedItem: null,
-    rollLoading:false
+    rollLoading: false,
   }),
 
   getters: {
-    players(state) {
-      return state.game.players;
-    },
     activePlayer(state) {
       const players = state.game.players;
       return players[state.game?.turn];
+    },
+    isUserTurn(state) {
+      const userTurn: PlayerModel = state.game.players[state.game.turn];
+      return userTurn.userid == state.profile.userid ? true : false;
+    },
+    yourPoint(state) {
+      const profile: any = state.game.players.find(
+        (player: PlayerModel) => player.userid == state.profile.userid
+      );
+      return profile.scores.reduce(
+        (total: number, die: any) => total + die.value,
+        0
+      );
+    },
+    oppPoint(state) {
+      const profile: any = state.game.players.find(
+        (player: PlayerModel) => player.userid != state.profile.userid
+      );
+      return profile?.scores.reduce(
+        (total: number, die: any) => total + die.value,
+        0
+      );
+    },
+    winner(state) {
+      if (this.yourPoint > this.oppPoint) {
+        return "YOU";
+      }
+      else{
+        return state.game.players[1].email.split("@")[0]
+      }
     },
   },
 

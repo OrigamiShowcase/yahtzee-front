@@ -32,9 +32,12 @@ onMounted(async () => {
     <div class="details">
       <StartGame v-if="store.game?.state == GameState.Waiting" />
       <Header />
-      <div class="p-2 flex flex-col justify-between">
+      <div
+        class="p-2 flex flex-col justify-between"
+        style="height: calc(100% - 50px)"
+      >
         <Board />
-        <div class="p-2 mt-3 rounded-2xl bg-emerald-600 bg-opacity-40 relative">
+        <div class="p-2 rounded-2xl bg-emerald-600 bg-opacity-40 relative">
           <Dices />
           <Actions />
         </div>

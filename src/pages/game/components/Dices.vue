@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GameState from "src/enums/GameState";
 import ApiService from "src/services/ApiService";
 import { appStore } from "src/stores/app";
 import { ref } from "vue";
@@ -29,11 +30,12 @@ $eventBus.on("roll", async () => {
       for (let item of dice.value) {
         item.classList.remove("dice-animation");
       }
+      store.rollLoading = false;
     }, 2000);
   } catch (error) {
     console.log("error in roll ==>", error);
+    store.rollLoading = false;
   }
-  store.rollLoading = false;
 });
 
 ////////
@@ -63,7 +65,7 @@ async function selectDice(index: number) {
 </script>
 
 <template>
-  <div class="dices">
+  <div v-if="store.game.state != GameState.Finished" class="dices">
     <div
       v-for="(item, index) in store.game.dices"
       :key="index"
@@ -88,6 +90,14 @@ async function selectDice(index: number) {
         class="w-[57px] h-[57px] bg-[var(--green-3)] bg-opacity-30 rounded-xl"
       ></div>
     </div>
+  </div>
+  <div v-else-if="store.game.players.length > 1" class="dices">
+    <span class="text-white text-2xl font-bold"
+      >Winner: {{ store.winner }}
+    </span>
+  </div>
+  <div v-else class="dices">
+    <span class="text-white text-2xl font-bold">Finished</span>
   </div>
 </template>
 
