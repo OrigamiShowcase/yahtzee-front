@@ -189,13 +189,6 @@ function calculateYatzyScore(type: number) {
 
 // تعداد تاس‌های مشخصی را بشمارد
 function countOccurrences(number: number) {
-  console.log("dices ===>", store.game.dices);
-
-  console.log(
-    `nnumber ${number} ==>`,
-    dices.filter((die: number) => die === number).length
-  );
-
   return dices.filter((die: number) => die === number).length;
 }
 
@@ -211,22 +204,26 @@ function isFullHouse() {
   );
 }
 
-// 1-2-3 یا 2-3-4 یا 3-4-5 یا 4-5-6
 function isSmallStraight() {
-  const uniqueDice: any = [...new Set(dices)];
+  // برای اسمال استریت، باید 4 تاس پشت سر هم داشته باشید
   return (
-    (uniqueDice.length === 3 &&
-      Math.max(...uniqueDice) - Math.min(...uniqueDice) === 2) ||
-    (uniqueDice.length === 4 &&
-      Math.max(...uniqueDice) - Math.min(...uniqueDice) === 3)
+    (dices[0] === dices[1] - 1 &&
+      dices[1] === dices[2] - 1 &&
+      dices[2] === dices[3] - 1) ||
+    (dices[1] === dices[2] - 1 &&
+      dices[2] === dices[3] - 1 &&
+      dices[3] === dices[4] - 1)
   );
 }
 
-// 1-2-3-4 یا 2-3-4-5 یا 3-4-5-6
+// تشخیص لارج استریت (ترتیب 5 عدد پشت سر هم)
 function isLargeStraight() {
+  // برای لارج استریت، باید 5 تاس پشت سر هم داشته باشید
   return (
-    [...new Set(dices)].length === 5 &&
-    Math.max(...dices) - Math.min(...dices) === 4
+    dices[0] === dices[1] - 1 &&
+    dices[1] === dices[2] - 1 &&
+    dices[2] === dices[3] - 1 &&
+    dices[3] === dices[4] - 1
   );
 }
 
