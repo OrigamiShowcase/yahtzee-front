@@ -1,9 +1,34 @@
 <script setup lang="ts">
+import { PlayerModel } from "src/models/GameModel";
+import { appStore } from "src/stores/app";
+import { computed } from "vue";
 import { useRouter } from "vue-router";
 
 ////////
 
+const store = appStore();
 const router = useRouter();
+
+////////
+
+const yourPoint = computed(() => {
+  const profile: any = store.game.players.find(
+    (player: PlayerModel) => player.userid == store.profile.userid
+  );
+  return profile.scores.reduce(
+    (total: number, die: any) => total + die.value,
+    0
+  );
+});
+const oppPoint = computed(() => {
+  const profile: any = store.game.players.find(
+    (player: PlayerModel) => player.userid != store.profile.userid
+  );
+  return profile.scores.reduce(
+    (total: number, die: any) => total + die.value,
+    0
+  );
+});
 
 ////////
 
@@ -11,7 +36,6 @@ async function logout() {
   window.localStorage.removeItem("token");
   router.push({ name: "login" });
 }
-
 </script>
 
 <template>
@@ -30,11 +54,11 @@ async function logout() {
     </div>
     <div>
       <div class="flex items-center text-xs text-gray-100">
-        <span class="bg-green-900 p-2 rounded-lg text-green-200"
-          >You: 350</span
-        >
-        <span class="mx-2">VS</span>
-        <span>193 :Opp</span>
+        <span class="bg-green-900 p-2 rounded-lg text-green-200">
+          You: {{ yourPoint }}
+        </span>
+        <span v-if="store.game.players.length != 1" class="mx-2">VS</span>
+        <span v-if="store.game.players.length != 1"> {{ oppPoint }} :Opp </span>
       </div>
     </div>
     <div>
@@ -51,6 +75,4 @@ async function logout() {
   </div>
 </template>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

@@ -33,6 +33,7 @@ $eventBus.on("roll", async () => {
   } catch (error) {
     console.log("error in roll ==>", error);
   }
+  store.rollLoading = false;
 });
 
 ////////

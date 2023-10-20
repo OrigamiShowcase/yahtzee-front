@@ -8,6 +8,7 @@ interface State {
   changingTurn: boolean;
   disconnected: boolean;
   selectedItem: number | null;
+  rollLoading:boolean
 }
 
 export const appStore = defineStore("game", {
@@ -18,6 +19,7 @@ export const appStore = defineStore("game", {
     changingTurn: false,
     disconnected: false,
     selectedItem: null,
+    rollLoading:false
   }),
 
   getters: {

@@ -12,6 +12,7 @@ const $eventBus: any = inject("$eventBus");
 ////////
 
 async function roll() {
+  store.rollLoading = true
   $eventBus.emit("roll", null);
 }
 async function assign() {
@@ -34,6 +35,7 @@ async function assign() {
         :label="`Roll (${3 - store.game.count})`"
         class="full-width"
         push
+        :loading="store.rollLoading"
         @click="roll"
       />
       <q-btn
