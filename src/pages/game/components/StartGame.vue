@@ -3,6 +3,7 @@ import { useQuasar } from "quasar";
 import ApiService from "src/services/ApiService";
 import { appStore } from "src/stores/app";
 import { reactive } from "vue";
+import SocketService from "src/services/SocketService";
 
 ////////
 
@@ -10,6 +11,7 @@ const $q = useQuasar();
 const store = appStore();
 const state = reactive({
   showInviteDialog: false,
+  startLoading: false,
 });
 
 ////////
@@ -29,14 +31,19 @@ function copy() {
 
 async function startGame() {
   if (store.activePlayer.userid == store.profile.userid) {
+    state.startLoading = true;
     try {
-      const response = await ApiService.startGame(store.game?._id);
+      // await ApiService.startGame(store.game?._id);
+      await SocketService.callApiSocket("game", "startGame", {
+        id: store.game._id,
+      });
     } catch (error) {
       $q.notify({
         color: "negative",
         message: "There is a problem in starting the game!",
       });
     }
+    state.startLoading = false;
   }
 }
 </script>
@@ -52,8 +59,10 @@ async function startGame() {
         push
         no-caps
         @click="state.showInviteDialog = true"
-        >Invite Friend</q-btn
       >
+        Invite Friend
+      </q-btn>
+
       <q-btn
         class="mt-5"
         color="green"
@@ -62,6 +71,7 @@ async function startGame() {
         glossy
         push
         no-caps
+        :loading="state.startLoading"
         @click="startGame"
       >
         Start Game

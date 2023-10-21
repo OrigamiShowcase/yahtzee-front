@@ -5,6 +5,7 @@ import { reactive } from "vue";
 import ApiService from "src/services/ApiService";
 import { useQuasar } from "quasar";
 import { useRouter } from "vue-router";
+import SocketService from "src/services/SocketService";
 
 ////////
 
@@ -36,12 +37,14 @@ function closeDialog() {
 
 async function confirm() {
   handleSubmit(async () => {
+    state.btnLoading = true;
     try {
       await ApiService.joinGame(id.value as string);
       router.push({ name: "game" });
     } catch (error) {
       console.log("error in joining ===>", error);
     }
+    state.btnLoading = false;
   })();
 }
 </script>

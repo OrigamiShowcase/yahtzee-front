@@ -2,12 +2,17 @@
 import GameState from "src/enums/GameState";
 import ApiService from "src/services/ApiService";
 import { appStore } from "src/stores/app";
-import { inject } from "vue";
+import { inject, reactive } from "vue";
+import SocketService from "src/services/SocketService";
 
 ////////
 
 const store = appStore();
 const $eventBus: any = inject("$eventBus");
+
+const state = reactive({
+  assignLoading: false,
+});
 
 ////////
 
@@ -16,12 +21,17 @@ async function roll() {
   $eventBus.emit("roll", null);
 }
 async function assign() {
+  state.assignLoading = true;
   try {
-    await ApiService.assign(store.selectedItem as number);
+    await SocketService.callApiSocket("game", "setScore", {
+      type: store.selectedItem as number,
+    });
+    // await ApiService.assign(store.selectedItem as number);
     store.selectedItem = null;
   } catch (error) {
     console.log("error in assining ===>", error);
   }
+  state.assignLoading = false;
 }
 </script>
 
@@ -64,6 +74,7 @@ async function assign() {
         class="full-width"
         push
         :disable="!store.game.dices.length"
+        :loading="state.assignLoading"
         @click="assign"
       />
     </template>

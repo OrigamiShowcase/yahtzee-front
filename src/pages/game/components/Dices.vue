@@ -4,6 +4,7 @@ import ApiService from "src/services/ApiService";
 import { appStore } from "src/stores/app";
 import { ref } from "vue";
 import { inject } from "vue";
+import SocketService from "src/services/SocketService";
 
 ////////
 
@@ -24,7 +25,8 @@ $eventBus.on("roll", async () => {
     }
   }
   try {
-    await ApiService.roll();
+    // await ApiService.roll();
+    await SocketService.callApiSocket("game", "rool", {});
     //remove animation class
     setTimeout(() => {
       for (let item of dice.value) {
@@ -53,10 +55,10 @@ async function selectDice(index: number) {
   try {
     if (checkLock(index)) {
       // if was locked so unlock it
-      await ApiService.unlockDice(index);
+      await SocketService.callApiSocket("game", "unlock", { index });
     } else {
       //if was not locked so lock it
-      await ApiService.lockDice(index);
+      await SocketService.callApiSocket("game", "lock", { index });
     }
   } catch (error) {
     console.log("selec dice error ====>", error);

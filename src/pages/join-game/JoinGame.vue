@@ -4,6 +4,7 @@ import { reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
 import JoinDialog from "src/pages/join-game/components/join-dialog.vue";
+import SocketService from "src/services/SocketService";
 
 ////////
 
@@ -27,10 +28,8 @@ async function logout() {
 
 async function createGame() {
   try {
-    const response = await ApiService.createGame();
-    if (response) {
-      router.push({ name: "game" });
-    }
+    await ApiService.createGame();
+    router.push({ name: "game" });
   } catch (error) {
     $q.notify({
       color: "negative",
@@ -38,7 +37,6 @@ async function createGame() {
     });
   }
 }
-
 </script>
 
 <template>
@@ -58,7 +56,7 @@ async function createGame() {
       <q-btn
         rounded
         text-color="white"
-        class="bg-[var(--green-2)] "
+        class="bg-[var(--green-2)]"
         unelevated
         @click="state.showJoinDialog = true"
       >
@@ -66,7 +64,7 @@ async function createGame() {
       </q-btn>
     </div>
 
-    <div class="hidden  lg:!flex flex-col items-center gap-1 absolute bottom-4 ">
+    <div class="hidden lg:!flex flex-col items-center gap-1 absolute bottom-4">
       <a
         href="https://github.com/origamicore/core"
         class="fixed px-5 py-2 rounded-full bg-[var(--green-1)] text-gray-50 hover:text-gray-50"
@@ -119,5 +117,4 @@ async function createGame() {
       @closeDialog="closeDialog"
     />
   </div>
-
 </template>
